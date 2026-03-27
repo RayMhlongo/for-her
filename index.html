@@ -42,7 +42,8 @@
 
     body {
       min-height: 100vh;
-      overflow: hidden;
+      overflow-x: hidden;
+      overflow-y: auto;
       font-family: "Poppins", sans-serif;
       color: var(--text);
       background:
@@ -68,6 +69,7 @@
       z-index: 0;
       opacity: 0.45;
       animation: floatBlob 10s ease-in-out infinite;
+      will-change: transform;
     }
 
     body::before {
@@ -84,8 +86,8 @@
     }
 
     @keyframes floatBlob {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      50% { transform: translate(20px, -20px) scale(1.06); }
+      0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+      50% { transform: translate3d(20px, -20px, 0) scale(1.06); }
     }
 
     .stars,
@@ -104,6 +106,7 @@
       opacity: 0.8;
       animation-timing-function: linear;
       animation-iteration-count: infinite;
+      will-change: transform, opacity;
     }
 
     .star {
@@ -127,9 +130,9 @@
     }
 
     @keyframes driftUp {
-      0% { transform: translateY(100vh) scale(0.6) rotate(0deg); opacity: 0; }
+      0% { transform: translate3d(0, 100vh, 0) scale(0.6) rotate(0deg); opacity: 0; }
       10% { opacity: 1; }
-      100% { transform: translateY(-20vh) scale(1.2) rotate(360deg); opacity: 0; }
+      100% { transform: translate3d(0, -20vh, 0) scale(1.2) rotate(360deg); opacity: 0; }
     }
 
     .sparkle {
@@ -141,8 +144,8 @@
     }
 
     @keyframes sparkleFloat {
-      0%, 100% { transform: translateY(0) scale(0.8); opacity: 0.4; }
-      50% { transform: translateY(-12px) scale(1.4); opacity: 1; }
+      0%, 100% { transform: translate3d(0, 0, 0) scale(0.8); opacity: 0.4; }
+      50% { transform: translate3d(0, -12px, 0) scale(1.4); opacity: 1; }
     }
 
     .card {
@@ -154,18 +157,19 @@
       border: 1px solid var(--glass-border);
       border-radius: var(--radius-xl);
       box-shadow: var(--shadow);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       overflow: hidden;
       transform-style: preserve-3d;
       transition: transform var(--transition-med), box-shadow var(--transition-med);
-      animation: cardEntrance 1.2s cubic-bezier(.2,.8,.2,1);
+      animation: cardEntrance 0.9s cubic-bezier(.2,.8,.2,1);
+      will-change: transform;
     }
 
     @keyframes cardEntrance {
       from {
         opacity: 0;
-        transform: translateY(40px) scale(0.96);
+        transform: translateY(24px) scale(0.98);
       }
       to {
         opacity: 1;
@@ -178,10 +182,11 @@
       position: absolute;
       inset: 0;
       background:
-        linear-gradient(120deg, transparent 10%, rgba(255,255,255,0.2) 30%, transparent 50%);
+        linear-gradient(120deg, transparent 10%, rgba(255,255,255,0.16) 30%, transparent 50%);
       transform: translateX(-120%);
-      animation: shine 6s linear infinite;
+      animation: shine 8s linear infinite;
       pointer-events: none;
+      will-change: transform;
     }
 
     @keyframes shine {
@@ -268,7 +273,7 @@
       text-transform: uppercase;
       margin-bottom: 10px;
       opacity: 0.9;
-      animation: fadeInDown 1s ease both;
+      animation: fadeInDown 0.8s ease both;
     }
 
     .title {
@@ -277,14 +282,14 @@
       line-height: 1.05;
       color: #fff;
       text-shadow: 0 6px 24px rgba(255, 77, 141, 0.35);
-      animation: fadeInUp 1s ease both;
+      animation: fadeInUp 0.8s ease both;
     }
 
     .subtitle {
       margin-top: 12px;
       font-size: 1rem;
       color: var(--muted);
-      animation: fadeInUp 1.2s ease both;
+      animation: fadeInUp 1s ease both;
     }
 
     @keyframes fadeInUp {
@@ -320,14 +325,15 @@
         border-color var(--transition-med);
       opacity: 0;
       transform: translateY(20px);
-      animation: revealLine 0.7s ease forwards;
+      animation: revealLine 0.55s ease forwards;
+      will-change: transform, opacity;
     }
 
-    .line:nth-child(1) { animation-delay: 0.2s; }
-    .line:nth-child(2) { animation-delay: 0.4s; }
-    .line:nth-child(3) { animation-delay: 0.6s; }
-    .line:nth-child(4) { animation-delay: 0.8s; }
-    .line:nth-child(5) { animation-delay: 1s; }
+    .line:nth-child(1) { animation-delay: 0.15s; }
+    .line:nth-child(2) { animation-delay: 0.3s; }
+    .line:nth-child(3) { animation-delay: 0.45s; }
+    .line:nth-child(4) { animation-delay: 0.6s; }
+    .line:nth-child(5) { animation-delay: 0.75s; }
 
     @keyframes revealLine {
       to {
@@ -357,11 +363,11 @@
     }
 
     .line:hover {
-      transform: translateY(-4px) rotateX(3deg) rotateY(-3deg);
+      transform: translateY(-2px);
       box-shadow:
         inset 0 1px 0 rgba(255,255,255,0.12),
-        0 20px 35px rgba(0, 0, 0, 0.24),
-        var(--glow);
+        0 16px 28px rgba(0, 0, 0, 0.22),
+        0 0 12px rgba(255, 77, 141, 0.22);
       border-color: rgba(255,255,255,0.22);
     }
 
@@ -370,7 +376,7 @@
     }
 
     .line:hover::after {
-      transform: translateY(-50%) scale(1.2);
+      transform: translateY(-50%) scale(1.05);
       color: var(--pink-3);
     }
 
@@ -406,6 +412,7 @@
       box-shadow: 0 0 0 0 rgba(255,77,141,0.5);
       font-size: 1.5rem;
       animation: pulseHeart 2s infinite;
+      will-change: transform, box-shadow;
     }
 
     @keyframes pulseHeart {
@@ -450,6 +457,7 @@
       background: linear-gradient(90deg, var(--pink-1), var(--pink-3));
       box-shadow: 0 0 18px rgba(255, 77, 141, 0.6);
       animation: fillBar 4.5s ease-in-out infinite alternate;
+      will-change: width;
     }
 
     @keyframes fillBar {
@@ -471,6 +479,7 @@
       animation: spin 12s linear infinite;
       z-index: 0;
       opacity: 0.35;
+      will-change: transform;
     }
 
     .glow-ring::before,
@@ -507,17 +516,18 @@
       font-size: 18px;
       pointer-events: none;
       z-index: 999;
-      animation: confettiFall 2.6s ease-out forwards;
+      animation: confettiFall 1.8s ease-out forwards;
+      will-change: transform, opacity;
     }
 
     @keyframes confettiFall {
       0% {
         opacity: 1;
-        transform: translateY(0) rotate(0deg) scale(0.8);
+        transform: translate3d(0, 0, 0) rotate(0deg) scale(0.8);
       }
       100% {
         opacity: 0;
-        transform: translateY(180px) rotate(240deg) scale(1.3);
+        transform: translate3d(0, 140px, 0) rotate(240deg) scale(1.1);
       }
     }
 
@@ -533,6 +543,7 @@
       border-radius: 999px;
       background: linear-gradient(to top, var(--pink-2), #fff);
       animation: bars 1s infinite ease-in-out;
+      will-change: transform, opacity;
     }
 
     .music-bars span:nth-child(1) { height: 20%; animation-delay: 0s; }
@@ -547,36 +558,152 @@
 
     @media (max-width: 768px) {
       body {
-        overflow-y: auto;
-        padding: 16px;
+        padding: 14px;
+        align-items: flex-start;
+      }
+
+      body::before,
+      body::after {
+        width: 260px;
+        height: 260px;
+        filter: blur(45px);
+        animation-duration: 14s;
       }
 
       .top-bar {
         flex-direction: column;
         align-items: stretch;
+        padding: 16px;
       }
 
       .controls {
         justify-content: center;
       }
 
+      .btn {
+        flex: 1 1 0;
+        min-width: 0;
+        padding: 11px 10px;
+        font-size: 0.86rem;
+      }
+
       .content {
-        padding: 30px 18px 26px;
+        padding: 26px 16px 24px;
+      }
+
+      .title {
+        font-size: clamp(2.35rem, 10vw, 3.5rem);
+      }
+
+      .subtitle {
+        font-size: 0.95rem;
+      }
+
+      .rhyme-grid {
+        gap: 12px;
+        margin-top: 20px;
+        perspective: none;
       }
 
       .line {
-        padding: 18px 16px;
+        padding: 16px 14px;
+        box-shadow:
+          inset 0 1px 0 rgba(255,255,255,0.08),
+          0 10px 18px rgba(0, 0, 0, 0.16);
+      }
+
+      .line:hover {
+        transform: none;
+        box-shadow:
+          inset 0 1px 0 rgba(255,255,255,0.08),
+          0 10px 18px rgba(0, 0, 0, 0.16);
       }
 
       .line-number {
         display: block;
         margin-bottom: 6px;
+        min-width: 0;
+      }
+
+      .line-text {
+        font-size: 1rem;
+      }
+
+      .pulse-heart {
+        width: 56px;
+        height: 56px;
       }
 
       .floating-note {
         position: static;
         margin-top: 18px;
         text-align: center;
+      }
+
+      .glow-ring {
+        display: none;
+      }
+
+      .card::before {
+        animation-duration: 12s;
+      }
+
+      .music-bars span {
+        animation-duration: 1.3s;
+      }
+    }
+
+    @media (max-width: 768px), (pointer: coarse) {
+      .stars,
+      .sparkles {
+        display: none;
+      }
+
+      .star,
+      .sparkle {
+        animation: none !important;
+      }
+
+      .card {
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+      }
+
+      .card::before {
+        animation: none;
+      }
+
+      .progress-bar {
+        animation-duration: 6.5s;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .controls {
+        gap: 8px;
+      }
+
+      .btn {
+        font-size: 0.82rem;
+        padding: 10px 8px;
+      }
+
+      .badge {
+        justify-content: center;
+      }
+
+      .eyebrow {
+        font-size: 0.78rem;
+        letter-spacing: 0.14em;
+      }
+
+      .subtitle {
+        font-size: 0.9rem;
+      }
+
+      .typewriter {
+        font-size: 0.92rem;
+        min-height: 24px;
       }
     }
 
@@ -669,6 +796,8 @@
     const typewriter = document.getElementById("typewriter");
     const card = document.getElementById("card");
 
+    const isMobile = window.matchMedia("(max-width: 768px), (pointer: coarse)").matches;
+
     const messages = [
       "Every line glows a little brighter.",
       "Soft animations make the page feel alive.",
@@ -679,6 +808,7 @@
     let msgIndex = 0;
     let charIndex = 0;
     let deleting = false;
+    let typeTimeout;
 
     function typeEffect() {
       const current = messages[msgIndex];
@@ -689,7 +819,7 @@
 
         if (charIndex === current.length) {
           deleting = true;
-          setTimeout(typeEffect, 1200);
+          typeTimeout = setTimeout(typeEffect, 1200);
           return;
         }
       } else {
@@ -702,12 +832,13 @@
         }
       }
 
-      setTimeout(typeEffect, deleting ? 35 : 65);
+      typeTimeout = setTimeout(typeEffect, deleting ? (isMobile ? 50 : 35) : (isMobile ? 85 : 65));
     }
 
     typeEffect();
 
     function createStars(count = 60) {
+      const fragment = document.createDocumentFragment();
       for (let i = 0; i < count; i++) {
         const star = document.createElement("span");
         star.className = "star";
@@ -716,11 +847,13 @@
         star.style.animationDuration = (2 + Math.random() * 3) + "s";
         star.style.animationDelay = (Math.random() * 3) + "s";
         star.style.opacity = Math.random().toFixed(2);
-        starsContainer.appendChild(star);
+        fragment.appendChild(star);
       }
+      starsContainer.appendChild(fragment);
     }
 
     function createSparkles(count = 18) {
+      const fragment = document.createDocumentFragment();
       for (let i = 0; i < count; i++) {
         const sparkle = document.createElement("span");
         sparkle.className = "sparkle";
@@ -728,11 +861,13 @@
         sparkle.style.top = (10 + Math.random() * 80) + "vh";
         sparkle.style.animationDuration = (1.8 + Math.random() * 2.6) + "s";
         sparkle.style.animationDelay = (Math.random() * 2) + "s";
-        sparklesContainer.appendChild(sparkle);
+        fragment.appendChild(sparkle);
       }
+      sparklesContainer.appendChild(fragment);
     }
 
     function createFloatingHearts(count = 18) {
+      const fragment = document.createDocumentFragment();
       for (let i = 0; i < count; i++) {
         const heart = document.createElement("span");
         heart.className = "bg-heart";
@@ -741,15 +876,21 @@
         heart.style.animationDuration = (6 + Math.random() * 8) + "s";
         heart.style.animationDelay = (Math.random() * 6) + "s";
         heart.style.fontSize = (14 + Math.random() * 22) + "px";
-        heartsBgContainer.appendChild(heart);
+        fragment.appendChild(heart);
       }
+      heartsBgContainer.appendChild(fragment);
     }
 
-    createStars();
-    createSparkles();
-    createFloatingHearts();
+    if (!isMobile) {
+      createStars(40);
+      createSparkles(10);
+      createFloatingHearts(12);
+    } else {
+      createFloatingHearts(6);
+    }
 
     function burstHearts(x = window.innerWidth / 2, y = window.innerHeight / 2, amount = 18) {
+      const fragment = document.createDocumentFragment();
       for (let i = 0; i < amount; i++) {
         const heart = document.createElement("div");
         heart.className = "confetti-heart";
@@ -757,14 +898,19 @@
         heart.style.left = x + (Math.random() * 120 - 60) + "px";
         heart.style.top = y + (Math.random() * 50 - 25) + "px";
         heart.style.fontSize = (14 + Math.random() * 18) + "px";
-        document.body.appendChild(heart);
-
-        setTimeout(() => heart.remove(), 2600);
+        fragment.appendChild(heart);
+        setTimeout(() => heart.remove(), isMobile ? 1400 : 1800);
       }
+      document.body.appendChild(fragment);
     }
 
     surpriseBtn.addEventListener("click", () => {
-      burstHearts();
+      burstHearts(
+        window.innerWidth / 2,
+        window.innerHeight / 2,
+        isMobile ? 8 : 14
+      );
+
       card.animate(
         [
           { transform: "scale(1) rotate(0deg)" },
@@ -773,15 +919,19 @@
           { transform: "scale(1)" }
         ],
         {
-          duration: 700,
+          duration: isMobile ? 450 : 700,
           easing: "ease"
         }
       );
     });
 
     heartsBtn.addEventListener("click", () => {
-      createFloatingHearts(10);
-      burstHearts(window.innerWidth / 2, window.innerHeight / 2 + 40, 12);
+      createFloatingHearts(isMobile ? 3 : 6);
+      burstHearts(
+        window.innerWidth / 2,
+        window.innerHeight / 2 + 40,
+        isMobile ? 6 : 10
+      );
     });
 
     let glowMode = false;
@@ -805,24 +955,44 @@
       }
     });
 
-    document.addEventListener("mousemove", (e) => {
-      const { innerWidth, innerHeight } = window;
-      const x = (e.clientX / innerWidth - 0.5) * 10;
-      const y = (e.clientY / innerHeight - 0.5) * 10;
-      card.style.transform = `rotateY(${x * 0.6}deg) rotateX(${y * -0.6}deg)`;
-    });
+    if (!isMobile) {
+      let rafId = null;
+      let latestX = 0;
+      let latestY = 0;
 
-    document.addEventListener("mouseleave", () => {
-      card.style.transform = "rotateY(0deg) rotateX(0deg)";
-    });
+      document.addEventListener("mousemove", (e) => {
+        latestX = e.clientX;
+        latestY = e.clientY;
 
-    document.addEventListener("click", (e) => {
-      if (e.target.closest(".btn")) return;
-      burstHearts(e.clientX, e.clientY, 8);
-    });
+        if (rafId) return;
+
+        rafId = requestAnimationFrame(() => {
+          const { innerWidth, innerHeight } = window;
+          const x = (latestX / innerWidth - 0.5) * 10;
+          const y = (latestY / innerHeight - 0.5) * 10;
+          card.style.transform = `rotateY(${x * 0.5}deg) rotateX(${y * -0.5}deg)`;
+          rafId = null;
+        });
+      });
+
+      document.addEventListener("mouseleave", () => {
+        card.style.transform = "rotateY(0deg) rotateX(0deg)";
+      });
+
+      document.addEventListener("click", (e) => {
+        if (e.target.closest(".btn")) return;
+        burstHearts(e.clientX, e.clientY, 5);
+      });
+    }
 
     window.addEventListener("load", () => {
-      setTimeout(() => burstHearts(window.innerWidth / 2, window.innerHeight / 2, 14), 700);
+      setTimeout(() => {
+        burstHearts(
+          window.innerWidth / 2,
+          window.innerHeight / 2,
+          isMobile ? 6 : 10
+        );
+      }, 500);
     });
   </script>
 </body>
